@@ -1,0 +1,265 @@
+<mvc:View
+    controllerName="sync.ca.fi.financial.controller.Detail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.uxap"
+    xmlns:c="sap.ui.core"
+    xmlns:m="sap.m"
+    xmlns:layout="sap.ui.layout"
+    displayBlock="true"
+    height="100%"
+    xmlns:form="sap.ui.layout.form"
+>
+    <ObjectPageLayout
+        id="ObjectPageLayout"
+        showTitleInHeaderContent="true"
+        upperCaseAnchorBar="false"
+        class="sapUiNoContentPadding"
+    >
+        <headerTitle>
+            <ObjectPageDynamicHeaderTitle>
+                <expandedHeading>
+                    <m:Title
+                        text="{Gltxt} ({Saknr})"
+                        wrapping="true"
+                    />
+                </expandedHeading>
+                <snappedHeading>
+                    <m:Title
+                        text="{Gltxt} ({Saknr})"
+                        wrapping="true"
+                    />
+                </snappedHeading>
+                <actions>
+                    <m:Button
+                        icon="sap-icon://decline"
+                        tooltip="{i18n>btnClose}"
+                        type="Transparent"
+                        press=".onClose"
+                    />
+                </actions>
+            </ObjectPageDynamicHeaderTitle>
+        </headerTitle>
+
+        <headerContent>
+            <m:HBox
+                wrap="Wrap"
+                alignItems="Center"
+                justifyContent="SpaceBetween"
+                class="sapUiLargeMarginBottom"
+            >
+                <m:VBox class="sapUiMediumMarginEnd">
+                    <m:Title
+                        text="{i18n>labelVoucherDetails}"
+                        level="H2"
+                    />
+                </m:VBox>
+                <!-- 차변 합계 -->
+                <m:VBox
+                    alignItems="End"
+                    class="sapUiMediumMarginEnd"
+                >
+                    <m:ObjectNumber
+                        number="{
+                            parts: [
+                                { path: 'Debit' },
+                                { path: 'Waers' }
+                            ],
+                            type: 'sap.ui.model.type.Currency',
+                            formatOptions: {
+                                showMeasure: false,
+                                currencyCode: false
+                            }
+                        }"
+                        emphasized="true"
+                        state="Information"
+                        unit="{Waers}"
+                        class="sapMObjectNumberLarge"
+                    />
+                    <m:Label text="{i18n>labelDebitTotal}" />
+                </m:VBox>
+
+                <!-- 대변 합계 -->
+                <m:VBox
+                    alignItems="End"
+                    class="sapUiMediumMarginEnd"
+                >
+                    <m:ObjectNumber
+                        number="{
+                            parts: [
+                                { path: 'Credit' },
+                                { path: 'Waers' }
+                            ],
+                            type: 'sap.ui.model.type.Currency',
+                            formatOptions: {
+                                showMeasure: false,
+                                currencyCode: false
+                            }
+                        }"
+                        emphasized="true"
+                        state="Error"
+                        unit="{Waers}"
+                        class="sapMObjectNumberLarge"
+                    />
+                    <m:Label text="{i18n>labelCreditTotal}" />
+                </m:VBox>
+
+                <!-- 최종 잔액 -->
+                <m:VBox alignItems="End">
+                    <m:ObjectNumber
+                        number="{
+                            parts: [
+                                { path: 'FinalAmount' },
+                                { path: 'Waers' }
+                            ],
+                            type: 'sap.ui.model.type.Currency',
+                            formatOptions: {
+                                showMeasure: false,
+                                currencyCode: false
+                            }
+                        }"
+                        emphasized="true"
+                        state="None"
+                        unit="{Waers}"
+                        class="sapMObjectNumberLarge"
+                    />
+                    <m:Label text="{i18n>labelFinalAmount}" />
+                </m:VBox>
+            </m:HBox>
+        </headerContent>
+
+        <sections>
+            <ObjectPageSection
+                title="{i18n>labelVoucherDetails}"
+                titleUppercase="false"
+            >
+                <subSections>
+                    <ObjectPageSubSection
+                        title="{i18n>labelVoucherItem}"
+                        titleUppercase="false"
+                    >
+                        <blocks>
+                            <m:Table
+                                id="idItemsTable"
+                                items="{ path: 'to_Items', sorter: [ { path: 'Pmonth', descending: true }, { path: 'Pweek', descending: true } ] }"
+                                growing="true"
+                                growingScrollToLoad="true"
+                            >
+                                <m:columns>
+                                    <m:Column
+                                        mergeDuplicates="true"
+                                        width="3rem"
+                                    >
+                                        <m:Label text="{i18n>labelPmonth}" />
+                                    </m:Column>
+                                    <m:Column
+                                        mergeDuplicates="true"
+                                        width="3rem"
+                                    >
+                                        <m:Label text="{i18n>labelPweek}" />
+                                    </m:Column>
+                                    <m:Column>
+                                        <m:Label text="{i18n>labelBelnr}" />
+                                    </m:Column>
+                                    <m:Column width="5rem">
+                                        <m:Label text="{i18n>labelItnum}" />
+                                    </m:Column>
+                                    <m:Column>
+                                        <m:Label text="{i18n>labelBudat}" />
+                                    </m:Column>
+                                    <m:Column width="4rem">
+                                        <m:Label text="{i18n>labelBschl}" />
+                                    </m:Column>
+                                    <m:Column>
+                                        <m:Label
+                                            text="{i18n>labelDebit}"
+                                            width="12rem"
+                                        />
+                                    </m:Column>
+                                    <m:Column>
+                                        <m:Label
+                                            text="{i18n>labelCredit}"
+                                            width="12rem"
+                                        />
+                                    </m:Column>
+                                    <m:Column>
+                                        <m:Label text="{i18n>labelBpcode}" />
+                                    </m:Column>
+                                    <m:Column>
+                                        <m:Label
+                                            text="{i18n>labelCleared}"
+                                            width="4rem"
+                                        />
+                                    </m:Column>
+                                    <m:Column>
+                                        <m:Label
+                                            text="{i18n>labelClearBelnr}"
+                                        />
+                                    </m:Column>
+                                </m:columns>
+
+                                <m:items>
+                                    <m:ColumnListItem>
+                                        <m:cells>
+                                            <m:Text
+                                                text="{ path: 'Pmonth', formatter: '.formatter.removeLeadingZeros', targetType: 'any' }"
+                                            />
+                                            <m:Text
+                                                text="{ path: 'Pweek', formatter: '.formatter.removeLeadingZeros', targetType: 'any' }"
+                                            />
+                                            <m:Text text="{Belnr}" />
+                                            <m:Text
+                                                text="{ path: 'Itnum', formatter: '.formatter.removeLeadingZeros', targetType: 'any' }"
+                                            />
+                                            <m:Text
+                                                text="{path: 'Budat', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy/MM/dd'}}"
+                                            />
+                                            <m:Text text="{Bschl}" />
+                                            <m:ObjectNumber
+                                                number="{
+                                                    parts: [
+                                                        { path: 'Debit' },
+                                                        { path: 'Waers' }
+                                                    ],
+                                                    type: 'sap.ui.model.type.Currency',
+                                                    formatOptions: {
+                                                        showMeasure: false,
+                                                        currencyCode: false
+                                                    }
+                                                }"
+                                                unit="{Waers}"
+                                                state="{ path: 'Debit', formatter: '.formatter.getDebitState' }"
+                                                visible="{ path: 'Debit', formatter: '.formatter.isPositiveAmount' }"
+                                            />
+                                            <m:ObjectNumber
+                                                number="{
+                                                    parts: [
+                                                        { path: 'Credit' },
+                                                        { path: 'Waers' }
+                                                    ],
+                                                    type: 'sap.ui.model.type.Currency',
+                                                    formatOptions: {
+                                                        showMeasure: false,
+                                                        currencyCode: false
+                                                    }
+                                                }"
+                                                unit="{Waers}"
+                                                state="{ path: 'Credit', formatter: '.formatter.getCreditState' }"
+                                                visible="{ path: 'Credit', formatter: '.formatter.isPositiveAmount' }"
+                                            />
+                                            <m:Text text="{Bpcode}" />
+                                            <m:CheckBox
+                                                selected="{Augdt}"
+                                                editable="false"
+                                            />
+                                            <m:Text text="{Augbl}" />
+                                        </m:cells>
+                                    </m:ColumnListItem>
+                                </m:items>
+                            </m:Table>
+                        </blocks>
+                    </ObjectPageSubSection>
+                </subSections>
+            </ObjectPageSection>
+        </sections>
+    </ObjectPageLayout>
+</mvc:View>

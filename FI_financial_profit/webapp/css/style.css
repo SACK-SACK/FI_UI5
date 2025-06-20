@@ -1,0 +1,26 @@
+/* Enter your custom styles here */
+.highlight-parent {
+    background-color: #f0f8ff !important;
+    font-weight: bold;
+}
+.custom-row-highlight {
+    background-color: #eef6ff !important;
+    font-weight: bold;
+}
+/* 행 전체에 정확히 색칠되는 방식 */
+tr.custom-row-highlight > td {
+    background-color: #f5f9ff !important;
+    font-weight: bold;
+}
+
+.balanceCard {
+    max-width: 500px;
+    border-radius: 3px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.04);
+    background-color: white;
+}
+
+.noHeaderSpacing > header {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}

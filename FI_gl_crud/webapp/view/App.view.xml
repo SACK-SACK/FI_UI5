@@ -1,0 +1,23 @@
+<mvc:View
+    controllerName="sync.ca.fi.gl_crud.controller.App"
+    displayBlock="true"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+>
+    <App id="app">
+        <!-- 
+                layout을 모델경로로 지정해 주어야 첫화면에서 OneColumn
+                이었다가, List를 클릭하면 TwoColumnsMidExpanded 로 바뀌도록
+                Controller 에서 제어할 수 있다.
+            -->
+
+        <pages>
+            <f:FlexibleColumnLayout
+                id="fclId"
+                layout="{app>/layout}"
+                stateChange=".onStateChanged"
+            />
+        </pages>
+    </App>
+</mvc:View>

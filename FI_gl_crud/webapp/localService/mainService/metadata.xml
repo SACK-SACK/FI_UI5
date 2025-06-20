@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:Reference Uri="http://61.97.134.34:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="Aggregation"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://61.97.134.34:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://61.97.134.34:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://61.97.134.34:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CODELIST',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.CodeList.v1" Alias="SAP__CodeList"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://61.97.134.34:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://61.97.134.34:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://61.97.134.34:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_MEASURES',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Measures.V1" Alias="Measures"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://61.97.134.34:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://61.97.134.34:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://61.97.134.34:8000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Validation.V1" Alias="Validation"/>
+    </edmx:Reference>
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZCA_GW_004_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="ZCA_C_004Type" sap:label="[FI] 계정 projection view" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Bukrs"/>
+                    <PropertyRef Name="Saknr"/>
+                </Key>
+                <Property Name="Bukrs" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:label="회사코드"/>
+                <Property Name="Saknr" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="G/L 계정"/>
+                <Property Name="GlAccountName" Type="Edm.String" MaxLength="20" sap:display-format="UpperCase" sap:label="text" sap:quickinfo="계정명 텍스트"/>
+                <Property Name="CategoryMajor" Type="Edm.String" MaxLength="2"/>
+                <Property Name="CategoryDetail" Type="Edm.String" MaxLength="5"/>
+                <Property Name="Xbilk" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="G/L 계정유형" sap:quickinfo="G/L 계정 유형"/>
+                <Property Name="XbilkDesc" Type="Edm.String" MaxLength="4"/>
+                <Property Name="ReconYn" Type="Edm.Boolean" sap:label="보조원장 여부" sap:quickinfo="Recon 계정 여부"/>
+                <NavigationProperty Name="to_Texts" Relationship="ZCA_GW_004_SRV.assoc_C3ADE47D93487A0DDFA578AD8B6CB2EF" FromRole="FromRole_assoc_C3ADE47D93487A0DDFA578AD8B6CB2EF" ToRole="ToRole_assoc_C3ADE47D93487A0DDFA578AD8B6CB2EF"/>
+            </EntityType>
+            <EntityType Name="ZCA_C_005Type" sap:label="[FI] 계정텍스트 projection view" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Bukrs"/>
+                    <PropertyRef Name="Saknr"/>
+                    <PropertyRef Name="Spras"/>
+                </Key>
+                <Property Name="Bukrs" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:label="회사코드"/>
+                <Property Name="Saknr" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="G/L 계정"/>
+                <Property Name="Spras" Type="Edm.String" Nullable="false" MaxLength="2" sap:label="언어키"/>
+                <Property Name="Txt20" Type="Edm.String" MaxLength="20" sap:display-format="UpperCase" sap:label="text" sap:quickinfo="계정명 텍스트"/>
+                <NavigationProperty Name="to_Gl" Relationship="ZCA_GW_004_SRV.assoc_C3ADE47D93487A0DDFA578AD8B6CB2EF" FromRole="ToRole_assoc_C3ADE47D93487A0DDFA578AD8B6CB2EF" ToRole="FromRole_assoc_C3ADE47D93487A0DDFA578AD8B6CB2EF"/>
+            </EntityType>
+            <Association Name="assoc_C3ADE47D93487A0DDFA578AD8B6CB2EF" sap:content-version="1">
+                <End Type="ZCA_GW_004_SRV.ZCA_C_004Type" Multiplicity="1" Role="FromRole_assoc_C3ADE47D93487A0DDFA578AD8B6CB2EF">
+                    <OnDelete Action="Cascade"/>
+                </End>
+                <End Type="ZCA_GW_004_SRV.ZCA_C_005Type" Multiplicity="*" Role="ToRole_assoc_C3ADE47D93487A0DDFA578AD8B6CB2EF"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_assoc_C3ADE47D93487A0DDFA578AD8B6CB2EF">
+                        <PropertyRef Name="Saknr"/>
+                        <PropertyRef Name="Bukrs"/>
+                    </Principal>
+                    <Dependent Role="ToRole_assoc_C3ADE47D93487A0DDFA578AD8B6CB2EF">
+                        <PropertyRef Name="Saknr"/>
+                        <PropertyRef Name="Bukrs"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="ZCA_GW_004_SRV_Entities" m:IsDefaultEntityContainer="true" sap:message-scope-supported="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="ZCA_C_004" EntityType="ZCA_GW_004_SRV.ZCA_C_004Type" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="ZCA_C_005" EntityType="ZCA_GW_004_SRV.ZCA_C_005Type" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <AssociationSet Name="assoc_C3ADE47D93487A0DDFA578AD8B6CB2EF" Association="ZCA_GW_004_SRV.assoc_C3ADE47D93487A0DDFA578AD8B6CB2EF" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="ZCA_C_004" Role="FromRole_assoc_C3ADE47D93487A0DDFA578AD8B6CB2EF"/>
+                    <End EntitySet="ZCA_C_005" Role="ToRole_assoc_C3ADE47D93487A0DDFA578AD8B6CB2EF"/>
+                </AssociationSet>
+            </EntityContainer>
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <Annotations Target="ZCA_GW_004_SRV.ZCA_GW_004_SRV_Entities" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.ApplyMultiUnitBehaviorForSortingAndFiltering" Bool="true"/>
+            </Annotations>
+            <Annotations Target="ZCA_GW_004_SRV.ZCA_C_004Type/to_Texts" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Composition"/>
+            </Annotations>
+            <Annotations Target="ZCA_GW_004_SRV.ZCA_GW_004_SRV_Entities/ZCA_C_004" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.NavigationRestrictions">
+                    <Record>
+                        <PropertyValue Property="RestrictedProperties">
+                            <Collection>
+                                <Record>
+                                    <PropertyValue Property="NavigationProperty" NavigationPropertyPath="to_Texts"/>
+                                    <PropertyValue Property="InsertRestrictions">
+                                        <Record>
+                                            <PropertyValue Property="Insertable" Bool="false"/>
+                                        </Record>
+                                    </PropertyValue>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="ZCA_GW_004_SRV.ZCA_GW_004_SRV_Entities/ZCA_C_005" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.NavigationRestrictions">
+                    <Record>
+                        <PropertyValue Property="RestrictedProperties">
+                            <Collection>
+                                <Record>
+                                    <PropertyValue Property="NavigationProperty" NavigationPropertyPath="to_Gl"/>
+                                    <PropertyValue Property="InsertRestrictions">
+                                        <Record>
+                                            <PropertyValue Property="Insertable" Bool="false"/>
+                                        </Record>
+                                    </PropertyValue>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <atom:link rel="self" href="http://61.97.134.34:8000/sap/opu/odata/sap/ZCA_GW_004_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://61.97.134.34:8000/sap/opu/odata/sap/ZCA_GW_004_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

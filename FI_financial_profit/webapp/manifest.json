@@ -1,0 +1,212 @@
+{
+    "_version": "1.60.0",
+    "sap.app": {
+        "id": "sync.ca.fi.financial",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "@sap/generator-fiori:basic",
+            "version": "1.16.5",
+            "toolsId": "ff33611e-4032-4752-a937-864b458e92ac"
+        },
+        "dataSources": {
+            "ZCA_CDS_V_008_CDS_VAN": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZCA_CDS_V_008_CDS_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/mainService/ZCA_CDS_V_008_CDS_VAN.xml"
+                }
+            },
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/ZCA_CDS_V_008_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["ZCA_CDS_V_008_CDS_VAN"],
+                    "localUri": "localService/mainService/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            },
+            "ZCA_CDS_V_011_CDS_VAN": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZCA_CDS_V_011_CDS_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/ZCA_CDS_V_011_CDS/ZCA_CDS_V_011_CDS_VAN.xml"
+                }
+            },
+            "ZCA_CDS_V_011_CDS": {
+                "uri": "/sap/opu/odata/sap/ZCA_CDS_V_011_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["ZCA_CDS_V_011_CDS_VAN"],
+                    "localUri": "localService/ZCA_CDS_V_011_CDS/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            },
+            "ZCA_CDS_V_008_TOTAL_CDS_VAN": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZCA_CDS_V_008_TOTAL_CDS_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/ZCA_CDS_V_008_TOTAL_CDS/ZCA_CDS_V_008_TOTAL_CDS_VAN.xml"
+                }
+            },
+            "ZCA_CDS_V_008_TOTAL_CDS": {
+                "uri": "/sap/opu/odata/sap/ZCA_CDS_V_008_TOTAL_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["ZCA_CDS_V_008_TOTAL_CDS_VAN"],
+                    "localUri": "localService/ZCA_CDS_V_008_TOTAL_CDS/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            },
+            "ZCA_CDS_V_014_CDS_VAN": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZCA_CDS_V_014_CDS_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/ZCA_CDS_V_014_CDS/ZCA_CDS_V_014_CDS_VAN.xml"
+                }
+            },
+            "ZCA_CDS_V_014_CDS": {
+                "uri": "/sap/opu/odata/sap/ZCA_CDS_V_014_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["ZCA_CDS_V_014_CDS_VAN"],
+                    "localUri": "localService/ZCA_CDS_V_014_CDS/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": true,
+        "dependencies": {
+            "minUI5Version": "1.120.0",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {},
+                "sap.ui.table": {},
+                "sap.f": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "sync.ca.fi.financial.i18n.i18n"
+                }
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "useBatch": true
+                }
+            },
+            "max_week": {
+                "dataSource": "ZCA_CDS_V_011_CDS",
+                "preload": true,
+                "settings": {}
+            },
+            "total_sum": {
+                "dataSource": "ZCA_CDS_V_008_TOTAL_CDS",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay"
+                }
+            },
+            "income": {
+                "dataSource": "ZCA_CDS_V_014_CDS",
+                "preload": true,
+                "settings": {}
+            }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "clearControlAggregation": true,
+                "controlAggregation": "pages",
+                "controlId": "fclId",
+                "transition": "slide",
+                "type": "View",
+                "viewType": "XML",
+                "path": "sync.ca.fi.financial.view",
+                "async": true,
+                "viewPath": "sync.ca.fi.financial.view"
+            },
+            "routes": [
+                {
+                    "name": "RouteMain",
+                    "pattern": ":layout:",
+                    "target": ["TargetMain"]
+                },
+                {
+                    "name": "RouteDetail",
+                    "pattern": "detail/{Pyear}/{Pmonth}/{Pweek}/{NodeID}/{layout}",
+                    "target": ["TargetMain", "TargetDetail"]
+                },
+                {
+                    "name": "RouteIncome",
+                    "pattern": "income/{Pyear}/{Pmonth}/{Pweek}/{layout}",
+                    "target": ["TargetMain", "TargetIncome"]
+                }
+            ],
+            "targets": {
+                "TargetMain": {
+                    "id": "Main",
+                    "name": "Main",
+                    "controlAggregation": "beginColumnPages"
+                },
+                "TargetDetail": {
+                    "id": "Detail",
+                    "name": "Detail",
+                    "controlAggregation": "midColumnPages"
+                },
+                "TargetIncome": {
+                    "id": "Income",
+                    "name": "Income",
+                    "controlAggregation": "midColumnPages"
+                }
+            }
+        },
+        "rootView": {
+            "viewName": "sync.ca.fi.financial.view.App",
+            "type": "XML",
+            "id": "App",
+            "async": true
+        }
+    }
+}

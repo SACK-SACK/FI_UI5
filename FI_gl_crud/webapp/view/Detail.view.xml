@@ -1,0 +1,287 @@
+<mvc:View
+    controllerName="sync.ca.fi.gl_crud.controller.Detail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.uxap"
+    xmlns:c="sap.ui.core"
+    xmlns:m="sap.m"
+    xmlns:layout="sap.ui.layout"
+    displayBlock="true"
+    height="100%"
+    xmlns:form="sap.ui.layout.form"
+>
+    <ObjectPageLayout
+        id="ObjectPageLayout"
+        showTitleInHeaderContent="true"
+        upperCaseAnchorBar="false"
+        class="sapUiNoContentPadding"
+    >
+        <!-- 헤더 타이틀 (계정명, 계정코드) -->
+        <headerTitle>
+            <ObjectPageDynamicHeaderTitle>
+                <expandedHeading>
+                    <m:Title
+                        text="{GlAccountName} ({Saknr})"
+                        wrapping="true"
+                    />
+                </expandedHeading>
+                <snappedHeading>
+                    <m:Title
+                        text="{GlAccountName} ({Saknr})"
+                        wrapping="true"
+                    />
+                </snappedHeading>
+                <expandedContent>
+                    <m:Title
+                        text="{GlAccountName} ({Saknr})계정의 세부정보 조회"
+                        wrapping="true"
+                    />
+                </expandedContent>
+                <snappedHeading>
+                    <m:Title
+                        text="{GlAccountName} ({Saknr})계정의 세부정보 조회"
+                        wrapping="true"
+                    />
+                </snappedHeading>
+
+                <actions>
+                    <m:Button
+                        icon="sap-icon://edit"
+                        type="Emphasized"
+                        text="Edit"
+                        press=".onEdit"
+                        visible="{= !${view>/editMode} ? ( ${Lvorm} !== true ? true : false ) : false }"
+                    />
+                    <m:Button
+                        icon="sap-icon://delete"
+                        type="Transparent"
+                        text="Delete"
+                        press=".onDelete"
+                        visible="{= !${view>/editMode} ? ( ${Lvorm} !== true ? true : false ) : false }"
+                    />
+                    <m:MessageStrip
+                        text="이 계정은 삭제된 상태입니다."
+                        type="Error"
+                        showIcon="true"
+                        visible="{= ${Lvorm} === true }"
+                    />
+
+                    <m:Button
+                        text="Save"
+                        type="Emphasized"
+                        visible="{view>/editMode}"
+                        icon="sap-icon://save"
+                        press=".onSave"
+                    />
+                    <m:Button
+                        text="Cancel"
+                        icon="sap-icon://cancel"
+                        visible="{view>/editMode}"
+                        press=".onCancelEdit"
+                        type="Reject"
+                    />
+
+                    <m:Button
+                        icon="sap-icon://full-screen"
+                        type="Transparent"
+                        tooltip="전체화면"
+                        press=".onDetailFullScreen"
+                        visible="{= !${app>/isFullScreen} }"
+                    />
+                    <m:Button
+                        icon="sap-icon://exit-full-screen"
+                        type="Transparent"
+                        tooltip="나가기"
+                        press=".onDetailExitFullScreen"
+                        visible="{app>/isFullScreen}"
+                    />
+                    <m:Button
+                        icon="sap-icon://decline"
+                        tooltip="닫기"
+                        type="Transparent"
+                        press=".onClose"
+                    />
+                </actions>
+            </ObjectPageDynamicHeaderTitle>
+        </headerTitle>
+
+        <!-- 헤더 Content (이미지, 상태, 주요 속성) -->
+        <headerContent>
+            <m:FlexBox
+                wrap="Wrap"
+                alignItems="Center"
+            >
+                <m:Avatar
+                    src="sap-icon://currency"
+                    backgroundColor="Accent1"
+                    displaySize="L"
+                    class="sapUiMediumMarginEnd"
+                />
+                <layout:HorizontalLayout allowWrapping="true">
+                    <layout:VerticalLayout class="sapUiMediumMarginEnd">
+                        <layout:content>
+                            <m:ObjectStatus
+                                title="계정명"
+                                text="{GlAccountName}"
+                            />
+                            <m:ObjectStatus
+                                title="계정코드"
+                                text="{Saknr}"
+                            />
+                        </layout:content>
+                    </layout:VerticalLayout>
+                    <layout:VerticalLayout class="sapUiMediumMarginEnd">
+                        <layout:content>
+                            <m:ObjectStatus
+                                title="계정유형"
+                                text="{Xbilk}({XbilkDesc})"
+                            />
+                            <m:ObjectStatus
+                                title="보조원장"
+                                text="{= ${ReconYn} ? 'Yes' : 'No'}"
+                            />
+                        </layout:content>
+                    </layout:VerticalLayout>
+                </layout:HorizontalLayout>
+            </m:FlexBox>
+        </headerContent>
+
+        <sections>
+            <!-- 계정 상세정보 -->
+            <ObjectPageSection
+                titleUppercase="false"
+                title="계정 상세정보"
+            >
+                <subSections>
+                    <ObjectPageSubSection
+                        title="계정 분류"
+                        titleUppercase="false"
+                    >
+                        <blocks>
+                            <form:SimpleForm
+                                layout="ResponsiveGridLayout"
+                                editable="{view>/editMode}"
+                            >
+                                <m:Label
+                                    text="분류"
+                                    id="label1"
+                                />
+                                <m:Text
+                                    text="{CategoryMajor}"
+                                    visible="{= !${view>/editMode}}"
+                                />
+
+                                <m:Label
+                                    text="분류"
+                                    id="label2"
+                                />
+                                <m:Input
+                                    value="{CategoryMajor}"
+                                    editable="false"
+                                    visible="{view>/editMode}"
+                                />
+
+                                <m:Label text="세부분류" />
+                                <m:Text
+                                    text="{CategoryDetail}"
+                                    visible="{= ${CategoryDetail} ? ( !${view>/editMode} ? true : false) : false }"
+                                />
+
+                                <m:Label text="세부분류" />
+                                <m:Input
+                                    value="{CategoryDetail}"
+                                    visible="{= ${CategoryDetail} ? ( ${view>/editMode} ? true : false ) : false }"
+                                    editable="false"
+                                />
+
+                                <m:Label text="계정유형" />
+                                <m:Text
+                                    text="{Xbilk}({XbilkDesc})"
+                                    visible="{= !${view>/editMode}}"
+                                />
+
+                                <m:Label text="계정유형" />
+                                <m:Select
+                                    selectedKey="{edit>/Xbilk}"
+                                    items="{typeList>/}"
+                                    editable="{view>/editMode}"
+                                    visible="{view>/editMode}"
+                                >
+                                    <c:Item
+                                        key="{typeList>key}"
+                                        text="{typeList>text}"
+                                    />
+                                </m:Select>
+
+                                <m:Label text="보조원장 여부" />
+                                <m:CheckBox
+                                    selected="{edit>/ReconYn}"
+                                    visible="{view>/editMode}"
+                                    editable="{view>/editMode}"
+                                />
+                            </form:SimpleForm>
+                        </blocks>
+                    </ObjectPageSubSection>
+                </subSections>
+            </ObjectPageSection>
+
+            <!-- 언어별 계정명 (to_Texts 네비게이션) -->
+            <ObjectPageSection
+                titleUppercase="false"
+                title="언어별 계정명"
+            >
+                <subSections>
+                    <ObjectPageSubSection
+                        title="계정 언어 Texts"
+                        titleUppercase="false"
+                    >
+                        <blocks>
+                            <m:VBox>
+                                <m:HBox
+                                    justifyContent="End"
+                                    alignItems="Center"
+                                >
+                                    <m:Button
+                                        text="계정 언어 추가"
+                                        icon="sap-icon://add"
+                                        press=".onOpenAddTextDialog"
+                                        visible="{view>/editMode}"
+                                    />
+                                </m:HBox>
+                                <m:Table
+                                    fixedLayout="true"
+                                    id="idTextsTable"
+                                >
+                                    <m:columns>
+                                        <m:Column width="10rem">
+                                            <m:Label text="언어코드" />
+                                        </m:Column>
+                                        <m:Column>
+                                            <m:Label text="계정명" />
+                                        </m:Column>
+                                        <m:Column
+                                            visible="{view>/editMode}"
+                                            width="3.5rem"
+                                        >
+                                            <m:Label text="삭제" />
+                                        </m:Column>
+                                    </m:columns>
+                                </m:Table>
+                            </m:VBox>
+                        </blocks>
+                    </ObjectPageSubSection>
+                </subSections>
+            </ObjectPageSection>
+        </sections>
+
+        <!-- Footer Toolbar -->
+        <footer>
+            <m:OverflowToolbar>
+                <m:ToolbarSpacer />
+                <m:Button
+                    text="닫기"
+                    press=".onClose"
+                />
+            </m:OverflowToolbar>
+        </footer>
+    </ObjectPageLayout>
+</mvc:View>

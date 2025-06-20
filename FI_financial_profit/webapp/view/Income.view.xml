@@ -1,0 +1,244 @@
+<mvc:View
+    controllerName="sync.ca.fi.financial.controller.Income"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:layout="sap.ui.layout"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    displayBlock="true"
+    xmlns:con="sap.suite.ui.commons"
+>
+    <Page title="{i18n>incomeTitle}">
+        <VBox class="sapUiSmallMargin sapUiContentPadding">
+            <!-- 상단 정보 영역 -->
+            <HBox justifyContent="End">
+                <Button
+                    icon="sap-icon://nav-back"
+                    text="{i18n>btnBackToBalance}"
+                    press="onNavBack"
+                    type="Emphasized"
+                />
+            </HBox>
+
+            <Carousel
+                id="summaryCarousel"
+                pageIndicatorPlacement="Bottom"
+                visible="{= ${view>/weeklySummary}.length > 0 }"
+                loop="true"
+                showPageIndicator="true"
+                arrowsPlacement="PageIndicator"
+                pageIndicatorBackgroundDesign="Translucent"
+                pages="{view>/weeklySummary}"
+            >
+                <VBox class="sapUiSmallMargin sapUiContentPadding">
+                    <form:SimpleForm
+                        editable="false"
+                        layout="ColumnLayout"
+                        title="{= parseInt(${view>Pmonth}) + '월 ' + parseInt(${view>Pweek}) + '주차 ' + ${i18n>summaryTitleSuffix} }"
+                        columnsM="2"
+                        columnsL="3"
+                        columnsXL="3"
+                    >
+                        <!-- 1. 매출/원가 -->
+                        <Label text="{i18n>sales}" />
+                        <ObjectNumber
+                            number="{parts: [{ path: 'view>Sales' }, { path: 'view>Waers' }], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: false, currencyCode: false } }"
+                            unit="{view>Waers}"
+                            emphasized="true"
+                        />
+
+                        <Label text="{i18n>cogs}" />
+                        <ObjectNumber
+                            number="{parts: [{ path: 'view>Cogs' }, { path: 'view>Waers' }], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: false, currencyCode: false } }"
+                            unit="{view>Waers}"
+                        />
+
+                        <!-- 2. 판관비/영업외수익/영업외비용 -->
+                        <Label text="{i18n>sga}" />
+                        <ObjectNumber
+                            number="{parts: [{ path: 'view>Sga' }, { path: 'view>Waers' }], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: false, currencyCode: false } }"
+                            unit="{view>Waers}"
+                        />
+
+                        <Label text="{i18n>nonOpIncome}" />
+                        <ObjectNumber
+                            number="{parts: [{ path: 'view>NonOpIncome' }, { path: 'view>Waers' }], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: false, currencyCode: false } }"
+                            unit="{view>Waers}"
+                        />
+
+                        <Label text="{i18n>nonOpExpense}" />
+                        <ObjectNumber
+                            number="{parts: [{ path: 'view>NonOpExpense' }, { path: 'view>Waers' }], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: false, currencyCode: false } }"
+                            unit="{view>Waers}"
+                        />
+
+                        <!-- 3. 파생 손익 항목 -->
+                        <Label text="{i18n>grossProfit}" />
+                        <ObjectNumber
+                            number="{parts: [{ path: 'view>GrossProfit' }, { path: 'view>Waers' }], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: false, currencyCode: false } }"
+                            unit="{view>Waers}"
+                            state="Information"
+                        />
+
+                        <Label text="{i18n>operatingProfit}" />
+                        <ObjectNumber
+                            number="{parts: [{ path: 'view>OperatingProfit' }, { path: 'view>Waers' }], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: false, currencyCode: false } }"
+                            unit="{view>Waers}"
+                            state="Warning"
+                        />
+
+                        <Label text="{i18n>preTaxIncome}" />
+                        <ObjectNumber
+                            number="{parts: [{ path: 'view>PreTaxIncome' }, { path: 'view>Waers' }], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: false, currencyCode: false } }"
+                            unit="{view>Waers}"
+                            state="None"
+                        />
+
+                        <!-- 4. 당기순이익 (강조) -->
+                        <core:Title text="{i18n>netIncome}" />
+                        <ObjectNumber
+                            number="{parts: [{ path: 'view>NetIncome' }, { path: 'view>Waers' }], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: false, currencyCode: false } }"
+                            unit="{view>Waers}"
+                            emphasized="true"
+                            state="Success"
+                            class="sapMObjectNumberLarge"
+                        />
+                    </form:SimpleForm>
+                </VBox>
+            </Carousel>
+
+            <!-- ChartContainer 영역 -->
+            <con:ChartContainer
+                id="chartContainer"
+                showFullScreen="true"
+                autoAdjustHeight="true"
+            >
+                <con:content>
+                    <!-- Waterfall Chart -->
+                    <con:ChartContainerContent
+                        icon="sap-icon://business-objects-experience"
+                        title="{i18n>chartWaterfallTitle}"
+                    >
+                        <con:content>
+                            <viz:VizFrame
+                                id="idIncomeChart"
+                                uiConfig="{applicationSet:'fiori'}"
+                                height="400px"
+                                width="100%"
+                                vizType="waterfall"
+                            >
+                                <viz:dataset>
+                                    <viz.data:FlattenedDataset
+                                        data="{view>/weeklyIncome}"
+                                    >
+                                        <viz.data:dimensions>
+                                            <viz.data:DimensionDefinition
+                                                name="주차"
+                                                value="{view>Week}"
+                                            />
+                                            <viz.data:DimensionDefinition
+                                                name="Type"
+                                                value="{view>Type}"
+                                            />
+                                        </viz.data:dimensions>
+                                        <viz.data:measures>
+                                            <viz.data:MeasureDefinition
+                                                name="금액"
+                                                value="{view>Amount}"
+                                            />
+                                        </viz.data:measures>
+                                    </viz.data:FlattenedDataset>
+                                </viz:dataset>
+
+                                <viz:feeds>
+                                    <viz.feeds:FeedItem
+                                        uid="valueAxis"
+                                        type="Measure"
+                                        values="금액"
+                                    />
+                                    <viz.feeds:FeedItem
+                                        uid="categoryAxis"
+                                        type="Dimension"
+                                        values="주차"
+                                    />
+                                    <viz.feeds:FeedItem
+                                        uid="waterfallType"
+                                        type="Dimension"
+                                        values="Type"
+                                    />
+                                </viz:feeds>
+
+                                <viz:dependents>
+                                    <viz:Popover id="idIncomeChartPopover" />
+                                </viz:dependents>
+                            </viz:VizFrame>
+                        </con:content>
+                    </con:ChartContainerContent>
+
+                    <!-- Combination Chart -->
+                    <con:ChartContainerContent
+                        icon="sap-icon://multi-select"
+                        title="{i18n>chartComboTitle}"
+                    >
+                        <con:content>
+                            <viz:VizFrame
+                                id="idStackedComboChart"
+                                uiConfig="{applicationSet:'fiori'}"
+                                height="400px"
+                                width="100%"
+                                vizType="stacked_combination"
+                            >
+                                <viz:dataset>
+                                    <viz.data:FlattenedDataset
+                                        data="{view>/weeklyCombo}"
+                                    >
+                                        <viz.data:dimensions>
+                                            <viz.data:DimensionDefinition
+                                                name="주차"
+                                                value="{view>Week}"
+                                            />
+                                        </viz.data:dimensions>
+                                        <viz.data:measures>
+                                            <viz.data:MeasureDefinition
+                                                name="당기순이익"
+                                                value="{view>NetIncome}"
+                                            />
+                                            <viz.data:MeasureDefinition
+                                                name="매출액"
+                                                value="{view>Sales}"
+                                            />
+                                            <viz.data:MeasureDefinition
+                                                name="매출원가"
+                                                value="{view>Cogs}"
+                                            />
+                                        </viz.data:measures>
+                                    </viz.data:FlattenedDataset>
+                                </viz:dataset>
+
+                                <viz:feeds>
+                                    <viz.feeds:FeedItem
+                                        uid="valueAxis"
+                                        type="Measure"
+                                        values="매출액,매출원가,당기순이익"
+                                    />
+                                    <viz.feeds:FeedItem
+                                        uid="categoryAxis"
+                                        type="Dimension"
+                                        values="주차"
+                                    />
+                                </viz:feeds>
+
+                                <viz:dependents>
+                                    <viz:Popover id="idComboChartPopover" />
+                                </viz:dependents>
+                            </viz:VizFrame>
+                        </con:content>
+                    </con:ChartContainerContent>
+                </con:content>
+            </con:ChartContainer>
+        </VBox>
+    </Page>
+</mvc:View>

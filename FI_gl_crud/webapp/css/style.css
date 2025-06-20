@@ -1,0 +1,35 @@
+.group-header-asset {
+    background-color: #f3e5f5 !important; /* 연보라 */
+    color: #4a148c;
+    font-weight: bold;
+}
+
+.group-header-liability {
+    background-color: #e0f2f1 !important; /* 민트 */
+    color: #004d40;
+    font-weight: bold;
+}
+
+.group-header-capital {
+    background-color: #fff9c4 !important; /* 연노랑 */
+    color: #f57f17;
+    font-weight: bold;
+}
+
+.group-header-revenue {
+    background-color: #e3f2fd !important; /* 연하늘 */
+    color: #01579b;
+    font-weight: bold;
+}
+
+.group-header-expense {
+    background-color: #ffe0b2 !important; /* 피치 */
+    color: #e65100;
+    font-weight: bold;
+}
+
+.group-header-etc {
+    background-color: #f5f5f5 !important; /* 연회색 */
+    color: #424242;
+    font-weight: bold;
+}

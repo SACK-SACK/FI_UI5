@@ -1,0 +1,169 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:layout="sap.ui.layout"
+    xmlns:form="sap.ui.layout.form"
+>
+    <Dialog
+        id="createAccountDialog"
+        title="계정 생성"
+        draggable="true"
+        resizable="true"
+        contentWidth="500px"
+    >
+        <VBox
+            class="sapUiSmallMargin sapUiContentPadding"
+            renderType="Bare"
+        >
+            <!-- 계정명 (기본 한글) -->
+            <VBox class="sapUiSmallMarginBottom">
+                <Label
+                    text="계정명 (한글)"
+                    required="true"
+                    labelFor="idGlAccountName"
+                />
+                <Input
+                    id="idGlAccountName"
+                    value="{createModel>/GlAccountName}"
+                    liveChange=".onGlNameChange"
+                    required="true"
+                    valueStateText="계정명은 필수 항목입니다."
+                />
+            </VBox>
+
+            <!-- 대분류 + 세부분류 -->
+            <HBox class="sapUiSmallMarginBottom">
+                <VBox width="50%">
+                    <Label text="대분류" />
+                    <Select
+                        selectedKey="{createModel>/CategoryMajor}"
+                        change=".onMajorCategoryChange"
+                        items="{categoryList>/}"
+                        width="80%"
+                    >
+                        <core:Item
+                            key="{categoryList>key}"
+                            text="{categoryList>text}"
+                        />
+                    </Select>
+                </VBox>
+                <VBox width="50%">
+                    <Label text="세부분류" />
+                    <Select
+                        selectedKey="{createModel>/CategoryDetail}"
+                        enabled="{view>/detailCategoryEditable}"
+                        items="{view>/detailCategoryList}"
+                        width="80%"
+                    >
+                        <core:Item
+                            key="{view>key}"
+                            text="{view>text}"
+                        />
+                    </Select>
+                </VBox>
+            </HBox>
+
+            <!-- 계정유형 -->
+            <VBox class="sapUiSmallMarginBottom">
+                <Label text="계정유형" />
+                <Select
+                    width="100%"
+                    selectedKey="{createModel>/Xbilk}"
+                    items="{typeList>/}"
+                >
+                    <core:Item
+                        key="{typeList>key}"
+                        text="{typeList>text}"
+                    />
+                </Select>
+            </VBox>
+
+            <!-- 보조원장 여부 -->
+            <VBox class="sapUiSmallMarginBottom">
+                <CheckBox
+                    text="보조원장 사용"
+                    selected="{createModel>/ReconYn}"
+                />
+            </VBox>
+
+            <!-- 텍스트 추가 (다국어) -->
+            <Toolbar class="sapUiSmallMarginBottom">
+                <Title
+                    text="언어별 계정 텍스트"
+                    level="H5"
+                />
+                <ToolbarSpacer />
+                <Button
+                    icon="sap-icon://add"
+                    press=".onAddCreateText"
+                />
+            </Toolbar>
+
+            <Table
+                items="{createModel>/Texts}"
+                mode="None"
+            >
+                <columns>
+                    <Column>
+                        <Label text="언어코드" />
+                    </Column>
+                    <Column>
+                        <Label
+                            text="계정명"
+                            required="true"
+                            labelFor="idGlText"
+                        />
+                    </Column>
+                    <Column width="3rem">
+                        <Label text="" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <Select
+                            selectedKey="{createModel>Spras}"
+                            items="{createModel>availableLangs}"
+                            enabled="{= ${createModel>Spras} !== 'KO' }"
+                        >
+                            <core:Item
+                                key="{createModel>Spras}"
+                                text="{createModel>Spras} - {createModel>Txt20}"
+                            />
+                        </Select>
+                        <Input
+                            id="idGlText"
+                            value="{createModel>Txt20}"
+                            editable="{= ${createModel>Spras} !== 'KO' }"
+                            required="true"
+                        />
+                        <Button
+                            icon="sap-icon://delete"
+                            press=".onRemoveCreateText"
+                            visible="{= ${createModel>Spras} !== 'KO' }"
+                            type="Transparent"
+                        />
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </VBox>
+
+        <buttons>
+            <Button
+                icon="sap-icon://message-warning"
+                type="Reject"
+                press=".onMessagePopoverPress"
+                tooltip="입력 오류 메시지"
+                visible="{= ${message>/}.length > 0 }"
+            />
+            <Button
+                text="생성"
+                type="Emphasized"
+                press=".onCreateConfirm"
+            />
+            <Button
+                text="취소"
+                press=".onCreateCancel"
+            />
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

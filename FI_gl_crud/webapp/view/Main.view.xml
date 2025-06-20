@@ -1,0 +1,201 @@
+<mvc:View
+    xmlns:mdc="sap.ui.mdc"
+    controllerName="sync.ca.fi.gl_crud.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:core="sap.ui.core"
+>
+    <Page
+        id="page"
+        title="{i18n>title}"
+    >
+        <!-- FilterBar 추가 -->
+        <fb:FilterBar
+            id="filterBar"
+            search=".onSearch"
+            filterChange=".onFilterChange"
+            clear=".onFilterClear"
+            showClearOnFB="true"
+            persistencyKey="ZCA_GL_FILTER"
+            useToolbar="true"
+        >
+            <fb:filterGroupItems>
+                <!-- 계정명 -->
+                <fb:FilterGroupItem
+                    name="GlAccountName"
+                    label="계정명"
+                    groupName="_BASIC"
+                    visibleInFilterBar="true"
+                >
+                    <fb:control>
+                        <Input id="idFilterGlName" />
+                    </fb:control>
+                </fb:FilterGroupItem>
+
+                <!-- 대분류: CategoryMajor -->
+                <fb:FilterGroupItem
+                    name="CategoryMajor"
+                    label="분류"
+                    groupName="_BASIC"
+                    visibleInFilterBar="true"
+                >
+                    <fb:control>
+                        <MultiComboBox
+                            id="idFilterCategoryMajor"
+                            selectionChange=".onFilterCategoryMajorChange"
+                            items="{
+                        path: 'categoryList>/'
+                    }"
+                        >
+                            <core:Item
+                                key="{categoryList>key}"
+                                text="{categoryList>text}"
+                            />
+                        </MultiComboBox>
+                    </fb:control>
+                </fb:FilterGroupItem>
+
+                <!-- 세부분류: CategoryDetail -->
+                <fb:FilterGroupItem
+                    name="CategoryDetail"
+                    label="세부 분류"
+                    groupName="_BASIC"
+                    visibleInFilterBar="true"
+                >
+                    <fb:control>
+                        <MultiComboBox
+                            id="idFilterCategoryDetail"
+                            items="{view>/detailCategoryList}"
+                            editable="{view>/detailCategoryEditable}"
+                            enabled="{view>/detailCategoryEditable}"
+                        >
+                            <core:Item
+                                key="{view>key}"
+                                text="{view>text}"
+                            />
+                        </MultiComboBox>
+                    </fb:control>
+                </fb:FilterGroupItem>
+
+                <!-- 계정유형: Xbilk -->
+                <fb:FilterGroupItem
+                    name="Xbilk"
+                    label="계정유형"
+                    groupName="_BASIC"
+                    visibleInFilterBar="true"
+                >
+                    <fb:control>
+                        <MultiComboBox
+                            id="idFilterXbilk"
+                            items="{
+                        path: 'typeList>/'
+                    }"
+                        >
+                            <core:Item
+                                key="{typeList>key}"
+                                text="{typeList>text}"
+                            />
+                        </MultiComboBox>
+                    </fb:control>
+                </fb:FilterGroupItem>
+
+                <!-- 삭제 포함 여부 -->
+
+                <fb:FilterGroupItem
+                    name="IncludeDeleted"
+                    label="삭제 포함"
+                    groupName="_BASIC"
+                    visibleInFilterBar="true"
+                >
+                    <fb:control>
+                        <Switch
+                            id="idIncludeDeleted"
+                            state="true"
+                            customTextOn="포함"
+                            customTextOff="제외"
+                        />
+                    </fb:control>
+                </fb:FilterGroupItem>
+            </fb:filterGroupItems>
+        </fb:FilterBar>
+
+        <Panel>
+            <Toolbar>
+                <ToolbarSpacer />
+                <Button
+                    icon="sap-icon://add"
+                    text="계정 생성"
+                    press=".onOpenCreateDialog"
+                    type="Emphasized"
+                />
+            </Toolbar>
+
+            <IconTabBar
+                id="categoryTabBar"
+                select="onTabSelect"
+                expandable="false"
+                headerMode="Inline"
+            >
+                <items>
+                    <IconTabFilter
+                        text="전체({tabCounts>/ALL})"
+                        key="All"
+                    />
+                    <IconTabSeparator />
+                    <IconTabFilter
+                        key="ASSET"
+                        text="자산({tabCounts>/ASSET})"
+                    >
+                        <items>
+                            <IconTabFilter
+                                key="ASSET1"
+                                text="당좌자산({tabCounts>/ASSET1})"
+                            />
+                            <IconTabFilter
+                                key="ASSET2"
+                                text="재고자산({tabCounts>/ASSET2})"
+                            />
+                        </items>
+                    </IconTabFilter>
+                    <IconTabFilter
+                        key="LIABILITY"
+                        text="부채({tabCounts>/LIABILITY})"
+                    >
+                        <items>
+                            <IconTabFilter
+                                key="LIABILITY1"
+                                text="유동부채({tabCounts>/LIABILITY1})"
+                            />
+                        </items>
+                    </IconTabFilter>
+                    <IconTabFilter
+                        key="CAPITAL"
+                        text="자본({tabCounts>/CAPITAL})"
+                    />
+                    <IconTabFilter
+                        key="REVENUE"
+                        text="수익({tabCounts>/REVENUE})"
+                    />
+                    <IconTabFilter
+                        key="EXPENSE"
+                        text="비용({tabCounts>/EXPENSE})"
+                    />
+                    <IconTabFilter
+                        key="ETC"
+                        text="기타({tabCounts>/ETC})"
+                    />
+                </items>
+
+                <!-- 삭제 된 건 색깔 표시 하기  -->
+                <content>
+                    <List id="accountList" />
+                </content>
+            </IconTabBar>
+            <List
+                id="dummyList"
+                visible="false"
+            />
+        </Panel>
+    </Page>
+</mvc:View>

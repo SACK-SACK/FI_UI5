@@ -1,0 +1,43 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <!-- Dialog: 계정 언어 추가 -->
+    <Dialog
+        id="idAddTextDialog"
+        title="계정 언어 추가"
+    >
+        <VBox>
+            <Select
+                id="idLangSelect"
+                width="100%"
+                items="{addLangModel>/availableLangs}"
+                selectedKey="{addLangModel>/Spras}"
+            >
+                <core:Item
+                    key="{addLangModel>Spras}"
+                    text="{addLangModel>Spras} - {addLangModel>Txt20}"
+                />
+            </Select>
+            <Input
+                id="idLangTextInput"
+                placeholder="계정명 입력"
+                value="{addLangModel>/Txt20}"
+                width="100%"
+            />
+        </VBox>
+        <beginButton>
+            <Button
+                text="추가"
+                type="Emphasized"
+                press=".onAddTextConfirm"
+            />
+        </beginButton>
+        <endButton>
+            <Button
+                text="취소"
+                press=".onAddTextCancel"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

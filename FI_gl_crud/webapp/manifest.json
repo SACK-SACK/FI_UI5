@@ -1,0 +1,178 @@
+{
+    "_version": "1.60.0",
+    "sap.app": {
+        "id": "sync.ca.fi.gl_crud",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "@sap/generator-fiori:basic",
+            "version": "1.16.5",
+            "toolsId": "f45bc61c-d4d0-42b6-893f-79e39f7d8fda"
+        },
+        "dataSources": {
+            "ZCA_GW_004_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZCA_GW_004_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/mainService/ZCA_GW_004_ANNO_MDL.xml"
+                }
+            },
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/ZCA_GW_004_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["ZCA_GW_004_ANNO_MDL"],
+                    "localUri": "localService/mainService/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            },
+            "ZCA_CDS_V_007_CDS_VAN": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZCA_CDS_V_007_CDS_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/ZCA_CDS_V_007_CDS/ZCA_CDS_V_007_CDS_VAN.xml"
+                }
+            },
+            "ZCA_CDS_V_007_CDS": {
+                "uri": "/sap/opu/odata/sap/ZCA_CDS_V_007_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["ZCA_CDS_V_007_CDS_VAN"],
+                    "localUri": "localService/ZCA_CDS_V_007_CDS/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            },
+            "ZCA_GW_007_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZCA_GW_007_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/ZCA_GW_007_SRV/ZCA_GW_007_ANNO_MDL.xml"
+                }
+            },
+            "ZCA_GW_007_SRV": {
+                "uri": "/sap/opu/odata/sap/ZCA_GW_007_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["ZCA_GW_007_ANNO_MDL"],
+                    "localUri": "localService/ZCA_GW_007_SRV/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": true,
+        "dependencies": {
+            "minUI5Version": "1.120.30",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {},
+                "sap.f": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "sync.ca.fi.gl_crud.i18n.i18n"
+                }
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultUpdateMethod": "PATCH",
+                    "useBatch": true
+                }
+            },
+            "ZCA_CDS_V_007_CDS": {
+                "dataSource": "ZCA_CDS_V_007_CDS",
+                "preload": true,
+                "settings": {}
+            },
+            "gl_create": {
+                "dataSource": "ZCA_GW_007_SRV",
+                "preload": true,
+                "settings": {}
+            }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "clearControlAggregation": false,
+                "controlAggregation": "pages",
+                "controlId": "fclId",
+                "transition": "slide",
+                "type": "View",
+                "viewType": "XML",
+                "path": "sync.ca.fi.gl_crud.view",
+                "async": true,
+                "viewPath": "sync.ca.fi.gl_crud.view"
+            },
+            "routes": [
+                {
+                    "name": "RouteMain",
+                    "pattern": ":layout:",
+                    "target": ["TargetMain"]
+                },
+                {
+                    "name": "RouteDetail",
+                    "pattern": "detail/{Bukrs}/{Saknr}/{layout}",
+                    "target": ["TargetMain", "TargetDetail"]
+                }
+            ],
+            "targets": {
+                "TargetMain": {
+                    "id": "Main",
+                    "name": "Main",
+                    "controlAggregation": "beginColumnPages"
+                },
+                "TargetDetail": {
+                    "id": "Detail",
+                    "name": "Detail",
+                    "controlAggregation": "midColumnPages"
+                }
+            }
+        },
+        "rootView": {
+            "viewName": "sync.ca.fi.gl_crud.view.App",
+            "type": "XML",
+            "id": "App",
+            "async": true
+        }
+    }
+}

@@ -1,0 +1,322 @@
+<mvc:View
+    controllerName="sync.ca.fi.financial.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:smartTable="sap.ui.comp.smarttable"
+    xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+    displayBlock="true"
+    xmlns:Table="sap.ui.table"
+    xmlns:f="sap.f"
+    xmlns:card="sap.f.cards"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+>
+    <Page
+        id="page"
+        title="{i18n>title}"
+    >
+        <VBox
+            class="sapUiSmallMargin"
+            fitContainer="true"
+        >
+            <HBox alignItems="Center">
+                <VBox width="60%">
+                    <!-- SmartFilterBar -->
+                    <smartFilterBar:SmartFilterBar
+                        id="smartFilterBar"
+                        entitySet="ZCA_CDS_V_008"
+                        useToolbar="true"
+                        liveMode="false"
+                        useSnapshot="true"
+                        persistencyKey="SmartTreeTable_Filter"
+                        search=".onSearch"
+                    >
+                        <smartFilterBar:controlConfiguration>
+                            <!-- 년도: 2025 고정 -->
+                            <smartFilterBar:ControlConfiguration
+                                key="Pyear"
+                                mandatory="mandatory"
+                                visibleInAdvancedArea="false"
+                            >
+                                <smartFilterBar:customControl>
+                                    <Input
+                                        value="2025"
+                                        enabled="false"
+                                        width="100px"
+                                    />
+                                </smartFilterBar:customControl>
+                            </smartFilterBar:ControlConfiguration>
+                            <!-- 월 (단일 선택) -->
+                            <smartFilterBar:ControlConfiguration
+                                key="Pmonth"
+                                label="월"
+                                mandatory="mandatory"
+                            >
+                                <smartFilterBar:customControl>
+                                    <Select
+                                        id="customSelectPmonth"
+                                        selectedKey="{filters>/Pmonth}"
+                                        width="150px"
+                                    >
+                                        <core:Item
+                                            key="01"
+                                            text="01"
+                                        />
+                                        <core:Item
+                                            key="02"
+                                            text="02"
+                                        />
+                                        <core:Item
+                                            key="03"
+                                            text="03"
+                                        />
+                                        <core:Item
+                                            key="04"
+                                            text="04"
+                                        />
+                                        <core:Item
+                                            key="05"
+                                            text="05"
+                                        />
+                                        <core:Item
+                                            key="06"
+                                            text="06"
+                                        />
+                                        <core:Item
+                                            key="07"
+                                            text="07"
+                                        />
+                                        <core:Item
+                                            key="08"
+                                            text="08"
+                                        />
+                                        <core:Item
+                                            key="09"
+                                            text="09"
+                                        />
+                                        <core:Item
+                                            key="10"
+                                            text="10"
+                                        />
+                                        <core:Item
+                                            key="11"
+                                            text="11"
+                                        />
+                                        <core:Item
+                                            key="12"
+                                            text="12"
+                                        />
+                                    </Select>
+                                </smartFilterBar:customControl>
+                            </smartFilterBar:ControlConfiguration>
+
+                            <!-- 주차 (단일 선택) -->
+                            <smartFilterBar:ControlConfiguration
+                                key="Pweek"
+                                label="주차"
+                                mandatory="mandatory"
+                            >
+                                <smartFilterBar:customControl>
+                                    <Select
+                                        id="customSelectPweek"
+                                        selectedKey="{filters>/Pweek}"
+                                        width="150px"
+                                    >
+                                        <core:Item
+                                            key="1"
+                                            text="1"
+                                        />
+                                        <core:Item
+                                            key="2"
+                                            text="2"
+                                        />
+                                        <core:Item
+                                            key="3"
+                                            text="3"
+                                        />
+                                        <core:Item
+                                            key="4"
+                                            text="4"
+                                        />
+                                        <core:Item
+                                            key="5"
+                                            text="5"
+                                        />
+                                    </Select>
+                                </smartFilterBar:customControl>
+                            </smartFilterBar:ControlConfiguration>
+                        </smartFilterBar:controlConfiguration>
+                    </smartFilterBar:SmartFilterBar>
+                </VBox>
+
+                <f:Card
+                    class="sapUiSmallMargin balanceCard"
+                    width="100%"
+                    height="130px"
+                >
+                    <f:header>
+                        <card:Header
+                            title="자산 = 부채 + 자본"
+                            iconSrc="sap-icon://line-chart"
+                            iconSize="XS"
+                        />
+                    </f:header>
+                    <f:content>
+                        <VBox
+                            width="100%"
+                            alignItems="Center"
+                            class="sapUiContentPadding"
+                        >
+                            <HBox
+                                alignItems="Center"
+                                justifyContent="Center"
+                                class="sapUiTinyMarginBottom"
+                                width="100%"
+                            >
+                                <ObjectNumber
+                                    id="idAssetTotal"
+                                    number="0"
+                                    unit="KRW"
+                                    emphasized="true"
+                                    class="sapUiTinyMarginEnd"
+                                    state="Information"
+                                />
+                                <Text
+                                    text=" = "
+                                    class="sapUiTinyMarginEnd sapUiTinyMarginBegin"
+                                />
+                                <ObjectNumber
+                                    id="idDebtTotal"
+                                    number="0"
+                                    unit="KRW"
+                                    emphasized="true"
+                                    class="sapUiTinyMarginEnd"
+                                    state="Warning"
+                                />
+                                <Text
+                                    text=" + "
+                                    class="sapUiTinyMarginEnd sapUiTinyMarginBegin"
+                                />
+                                <ObjectNumber
+                                    id="idEquityTotal"
+                                    number="0"
+                                    unit="KRW"
+                                    emphasized="true"
+                                    state="Success"
+                                />
+                            </HBox>
+
+                            <HBox
+                                justifyContent="End"
+                                width="100%"
+                            >
+                                <ObjectStatus
+                                    id="idBalanceStatus"
+                                    text="상태 미확인"
+                                    state="None"
+                                    inverted="true"
+                                    icon="sap-icon://question-mark"
+                                    class="sapUiSmallMarginEnd"
+                                />
+                            </HBox>
+                        </VBox>
+                    </f:content>
+                </f:Card>
+            </HBox>
+
+            <!-- SmartTreeTable -->
+            <HBox height="100%">
+                <VBox width="74%">
+                    <smartTable:SmartTable
+                        id="smartTreeTable"
+                        tableType="TreeTable"
+                        height="100%"
+                        entitySet="ZCA_CDS_V_008"
+                        enableAutoBinding="false"
+                        enableExport="true"
+                        exportType="UI5ClientPDF"
+                        useExportToExcel="true"
+                        useTablePersonalisation="true"
+                        enableAutoColumnWidth="true"
+                        showRowCount="true"
+                        useVariantManagement="true"
+                        header="재무상태표"
+                    >
+                        <smartTable:customData>
+                            <core:CustomData
+                                key="treeAnnotationProperties"
+                                value='{
+                        "hierarchyNodeFor":"NodeID",
+                        "hierarchyParentNodeFor":"ParentNodeID",
+                        "hierarchyLevelFor":"HierarchyLevel",
+                        "hierarchyDrillStateFor":"DrillState"
+                    }'
+                            />
+                        </smartTable:customData>
+                    </smartTable:SmartTable>
+                </VBox>
+
+                <!-- 도넛 차트 영역 -->
+                <VBox
+                    width="25%"
+                    class="sapUiSmallMargin"
+                >
+                    <HBox justifyContent="End">
+                        <Button
+                            text="손익계산서로 이동"
+                            type="Emphasized"
+                            icon="sap-icon://line-chart"
+                            press=".onNavigateToIncome"
+                        />
+                    </HBox>
+                    <Panel headerText="부채/자본 비율">
+                        <viz:VizFrame
+                            id="idDonutChart"
+                            vizType="donut"
+                            width="100%"
+                            uiConfig="{applicationSet:'fiori'}"
+                        >
+                            <viz:dataset>
+                                <viz.data:FlattenedDataset
+                                    data="{view>/ratios}"
+                                >
+                                    <viz.data:dimensions>
+                                        <viz.data:DimensionDefinition
+                                            name="구분"
+                                            value="{label}"
+                                        />
+                                    </viz.data:dimensions>
+                                    <viz.data:measures>
+                                        <viz.data:MeasureDefinition
+                                            name="비율"
+                                            value="{value}"
+                                        />
+                                    </viz.data:measures>
+                                </viz.data:FlattenedDataset>
+                            </viz:dataset>
+
+                            <viz:feeds>
+                                <viz.feeds:FeedItem
+                                    uid="size"
+                                    type="Measure"
+                                    values="비율"
+                                />
+                                <viz.feeds:FeedItem
+                                    uid="color"
+                                    type="Dimension"
+                                    values="구분"
+                                />
+                            </viz:feeds>
+
+                            <viz:dependents>
+                                <viz:Popover id="idChartPopover" />
+                            </viz:dependents>
+                        </viz:VizFrame>
+                    </Panel>
+                </VBox>
+            </HBox>
+        </VBox>
+    </Page>
+</mvc:View>

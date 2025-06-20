@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="Aggregation"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CODELIST',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.CodeList.v1" Alias="SAP__CodeList"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_MEASURES',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Measures.V1" Alias="Measures"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Validation.V1" Alias="Validation"/>
+    </edmx:Reference>
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZCA_CDS_V_014_CDS" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="ZCA_CDS_V_014Type" sap:label="[FI] 손익계산서 집계" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Pyear"/>
+                    <PropertyRef Name="Pmonth"/>
+                    <PropertyRef Name="Pweek"/>
+                </Key>
+                <Property Name="Pyear" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="NonNegative" sap:label="계획 기준 년도" sap:quickinfo="계획 년도"/>
+                <Property Name="Pmonth" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="NonNegative" sap:label="계획월" sap:quickinfo="계획 월"/>
+                <Property Name="Pweek" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="NonNegative" sap:label="생산 주차" sap:quickinfo="계획 주차"/>
+                <Property Name="Sales" Type="Edm.Decimal" Precision="18" Scale="3" sap:unit="P9AA3E50364E69BC70DF2F3EB136436D0"/>
+                <Property Name="Cogs" Type="Edm.Decimal" Precision="18" Scale="3" sap:unit="P9AA3E50364E69BC70DF2F3EB136436D0"/>
+                <Property Name="Sga" Type="Edm.Decimal" Precision="18" Scale="3" sap:unit="P9AA3E50364E69BC70DF2F3EB136436D0"/>
+                <Property Name="NonOpIncome" Type="Edm.Decimal" Precision="18" Scale="3" sap:unit="P9AA3E50364E69BC70DF2F3EB136436D0"/>
+                <Property Name="NonOpExpense" Type="Edm.Decimal" Precision="18" Scale="3" sap:unit="P9AA3E50364E69BC70DF2F3EB136436D0"/>
+                <Property Name="GrossProfit" Type="Edm.Decimal" Precision="18" Scale="3" sap:unit="P9AA3E50364E69BC70DF2F3EB136436D0"/>
+                <Property Name="OperatingProfit" Type="Edm.Decimal" Precision="18" Scale="3" sap:unit="P9AA3E50364E69BC70DF2F3EB136436D0"/>
+                <Property Name="PreTaxIncome" Type="Edm.Decimal" Precision="18" Scale="3" sap:unit="P9AA3E50364E69BC70DF2F3EB136436D0"/>
+                <Property Name="NetIncome" Type="Edm.Decimal" Precision="18" Scale="3" sap:unit="P9AA3E50364E69BC70DF2F3EB136436D0"/>
+                <Property Name="Waers" Type="Edm.String" MaxLength="5" sap:semantics="currency-code"/>
+            </EntityType>
+            <EntityContainer Name="ZCA_CDS_V_014_CDS_Entities" m:IsDefaultEntityContainer="true" sap:message-scope-supported="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="ZCA_CDS_V_014" EntityType="ZCA_CDS_V_014_CDS.ZCA_CDS_V_014Type" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+            </EntityContainer>
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <Annotations Target="ZCA_CDS_V_014_CDS.ZCA_CDS_V_014_CDS_Entities" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.ApplyMultiUnitBehaviorForSortingAndFiltering" Bool="true"/>
+            </Annotations>
+            <atom:link rel="self" href="http://61.97.134.34:8000/sap/opu/odata/sap/ZCA_CDS_V_014_CDS/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://61.97.134.34:8000/sap/opu/odata/sap/ZCA_CDS_V_014_CDS/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
