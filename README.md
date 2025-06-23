@@ -60,10 +60,9 @@ npm run start
 - `node_modules/`, `dist/`, `mta_archives/` 등 **빌드 및 의존성 파일은 `.gitignore`에 포함**되어 있습니다.
 
 ---
-
 ## 👩‍💻 작성자
 
-- **주현정**  
+- [**주현정**](https://github.com/hyun-jung-joo)  
 - **진소정**
 
 SAP SYNC ACADEMY 6기 / ERP FI 모듈 개발 및 운영
