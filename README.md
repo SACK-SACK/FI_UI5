@@ -45,39 +45,21 @@ FI_UI5/
 
 ## 🚀 실행 방법 (로컬 개발용)
 
-1. UI5 CLI 설치 (최초 1회)
+아래 명령어를 순서대로 실행하면 로컬 개발 서버를 실행할 수 있습니다.
 
 ```bash
+# 1. UI5 CLI 전역 설치 (최초 1회만)
 npm install --global @ui5/cli
-```
 
-> 로컬 설치를 선호한다면:
-> ```bash
-> npm install --save-dev @ui5/cli
-> ```
-
-2. 프로젝트 의존성 설치
-
-```bash
+# 2. 프로젝트 의존성 설치
 npm install
-```
 
-3. 로컬 서버 실행
-
-```bash
+# 3. 로컬 서버 실행
 ui5 serve -o
+# 또는 npm run start
 ```
 
-또는 `package.json`에 `start` 스크립트가 정의되어 있다면:
-
-```bash
-npm run start
-```
-
-4. 로컬 mock 서버 사용
-
-`ui5.yaml`, `ui5-local.yaml`, `ui5-mock.yaml` 등을 활용하여 **mock 데이터 기반 개발**도 가능합니다.
-
+> `ui5.yaml`, `ui5-local.yaml`, `ui5-mock.yaml` 등을 활용하여 mock 서버와 함께 개발할 수 있습니다.
 ---
 
 ## 📄 기타
@@ -91,4 +73,4 @@ npm run start
 - [**주현정**](https://github.com/hyun-jung-joo)  
 - **진소정**
 
-SAP SYNC ACADEMY 6기 / ERP FI 모듈 개발 및 운영
+> SAP SYNC ACADEMY 6기 / ERP FI 모듈 개발 및 운영
