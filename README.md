@@ -13,6 +13,8 @@ SAP Fiori 기반의 재무(FI) 모듈 관련 UI5 애플리케이션입니다.
 FI_UI5/
 ├── FI_financial_profit  # 손익계산서(Income Statement) 및 수익 시각화 기능
 ├── FI_gl_crud           # G/L 계정 관리 (생성, 수정, 삭제) 기능
+├── FI_sales_report      # 매출 조회 및 고객/벤터별 매출 차트 시각화 기능
+├── FI_tempdoc_app       # 임시전표 결재(승인/반려) 기능
 ├── .gitignore           # 공통 Git 무시 규칙
 └── README.md            # 프로젝트 설명 문서
 ```
@@ -40,6 +42,16 @@ FI_UI5/
 - G/L 계정 목록 조회, 생성, 수정, 삭제
 - i18n 다국어 계정명 처리 (한/영/독어 등)
 - SmartTable 및 Dialog 기반 CRUD UI
+
+### `FI_sales_report`
+- 기업 총 매출 및 월별 매출 추이 시각화 (Donut Chart)
+- 고객/벤더별 매출 순위 TOP3 추출
+- 고객/벤더별 매출 비율/매출액 시각화 (Bar Chart & Donut Chart)
+
+### `FI_tempdoc_app`
+- 상신/승인/반려 상태의 임시전표 SmartTable 기반 조회
+- 상신처리된 임시전표의 경우, 상세 내역(Item)조회 및 차/대변 확인 가능
+- 승인/반려처리시 DB Update(결재상태, 결재의견) 및 실전표 전기 & 원장에 반영
 
 ---
 
@@ -71,6 +83,6 @@ ui5 serve -o
 ## 👩‍💻 작성자
 
 - [**주현정**](https://github.com/hyun-jung-joo)  
-- **진소정**
+- [**진소정**](https://github.com/jinsojeong)
 
 > SAP SYNC ACADEMY 6기 / ERP FI 모듈 개발 및 운영
