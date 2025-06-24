@@ -1,0 +1,30 @@
+/* Enter your custom styles here */
+.textSubtleSmall {
+  font-size: 0.8rem ;
+  color: #696969 ;
+  font-weight: normal;
+  opacity: 0.8;
+}
+
+.textApprove {
+  font-size: 1rem;
+  color: #333333;                  /* 더 진한 회색 (가독성 ↑) */
+  font-weight: 500;               /* regular보다 살짝 굵게 */
+  background-color: #dae4f6;      /* 연노랑 형광펜 */
+  padding: 4px 8px;
+  border-radius: 3px;
+  text-decoration: underline;
+  text-decoration-color: #999999; /* 밑줄 컬러 살짝 연하게 */
+  text-underline-offset: 3px;     /* 밑줄 살짝 띄우기 */
+}
+
+.debitAmount {
+    color: #1565c0;        /* 파란색 */
+    font-weight: semibold; /* 살짝 굵게 */
+}
+
+.creditAmount {
+    color: #c62828;        /* 빨간색 */
+    font-weight: semibold; /* 살짝 굵게 */
+}
+

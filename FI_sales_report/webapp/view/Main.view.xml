@@ -1,0 +1,130 @@
+<mvc:View
+  controllerName="sync.ca.fi.salesreport.controller.Main"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  xmlns:t="sap.ui.table"
+  xmlns:viz="sap.viz.ui5.controls"
+  xmlns:viz.data="sap.viz.ui5.data"
+  xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+  xmlns:f="sap.f"
+  xmlns:card="sap.f.cards"
+  displayBlock="true">
+
+  <Page id="page" class="sapUiResponsivePadding" title="{i18n>mainPageTitle}">
+    <HBox width="100%" justifyContent="SpaceBetween" height="100%">
+
+      <!-- 왼쪽: KPI + 차트 카드 -->
+      <VBox width="49%" class="sapUiSmallMarginTop sapUiTinyMarginStart sapUiTinyMarginEnd">
+        <f:Card height="600px" class="sapUiMediumMarginEnd sapUiTinyMarginBegin">
+          <f:header>
+            <card:Header
+              title="{i18n>KpiCardTitle}"
+              subtitle="{i18n>KpiCardSubTitle}"
+              iconSrc="sap-icon://business-objects-experience" />
+          </f:header>
+
+          <f:content>
+            <VBox renderType="Bare" class="sapUiSmallMarginTop">
+              <HBox justifyContent="SpaceAround" class="sapUiMediumMarginBottom">
+                <VBox alignItems="Left">
+                  <Text text="{i18n>TextTotal}" />
+                  <ObjectNumber class="largerKpiNumber sapUiTinyMarginTop"
+                                number="{summaryModel>/totalSalesFormatted}" unit="KRW" emphasized="true" />
+                </VBox>
+                <ToolbarSeparator />
+                <VBox alignItems="Left">
+                  <Text text="{i18n>TextTopMonth}" />
+                  <ObjectNumber class="largeKpiNumber sapUiTinyMarginTop"
+                                number="{ path: 'summaryModel>/topMonth', formatter: '.formatter.formatMonthText' }"
+                                emphasized="false" unit="월" />
+                </VBox>
+                <VBox alignItems="Left">
+                  <Text text="{i18n>TextTopAmount}" />
+                  <ObjectNumber class="largeKpiNumber sapUiTinyMarginTop"
+                                number="{summaryModel>/topAmountFormatted}" unit="KRW" emphasized="false" />
+                </VBox>
+              </HBox>
+
+              <VBox growFactor="1" height="100%" width="100%" justifyContent="Center">
+                <viz:VizFrame id="idSalesChart" uiConfig="{applicationSet:'fiori'}" vizType="donut"
+                              width="572px"
+                              vizProperties="{
+                                'title': {'visible': true, 'text': '월별 매출 차트'},
+                                'legend': {'visible': true, 'position': 'bottom'},
+                                'plotArea': {'dataLabel': {'visible': true, 'type': 'value', 'formatString': '#,##0'}}
+                              }">
+                  <viz:dataset>
+                    <viz.data:FlattenedDataset data="{chartModel>/}">
+                      <viz.data:dimensions>
+                        <viz.data:DimensionDefinition name="{i18n>TextMonth}" value="{chartModel>Month}" />
+                      </viz.data:dimensions>
+                      <viz.data:measures>
+                        <viz.data:MeasureDefinition name="{i18n>TextSales}" value="{chartModel>TotalSales}" />
+                      </viz.data:measures>
+                    </viz.data:FlattenedDataset>
+                  </viz:dataset>
+                  <viz:feeds>
+                    <viz.feeds:FeedItem uid="size" type="Measure" values="매출" />
+                    <viz.feeds:FeedItem uid="color" type="Dimension" values="월" />
+                  </viz:feeds>
+                </viz:VizFrame>
+              </VBox>
+            </VBox>
+          </f:content>
+        </f:Card>
+      </VBox>
+
+      <!-- 오른쪽: 자재별 + 고객별 매출 카드 묶음 -->
+      <VBox width="49%" class="sapUiSmallMarginTop sapUiSmallMarginBegin sapUiTinyMarginEnd" height="600px">
+        <f:Card height="290px" class="sapUiSmallMarginBottom">
+          <f:header>
+            <card:Header title="{i18n>MatCardTitle}"
+                         subtitle="{i18n>MatCardSubTitle}"
+                         iconSrc="sap-icon://product" />
+          </f:header>
+          <f:content>
+            <VBox class="sapUiTinyMarginTop sapUiTinyMarginBottom sapUiMediumMarginBegin">
+              <HBox justifyContent="Start" class="sapUiNoContentPadding sapUiTinyMarginBottom">
+                <Link text="{i18n>LinkMatText}" press=".onMatPress" />
+              </HBox>
+              <t:Table rows="{mat_sum_one>/ZCA_CDS_V_003}" visibleRowCount="3" selectionMode="None" width="100%">
+                <t:columns>
+                  <t:Column><Label text="{i18n>ColumnMatnr}" /><t:template><Text text="{mat_sum_one>Matnr} " class="matnrHighlight" /></t:template></t:Column>
+                  <t:Column width="10rem"><Label text="{i18n>ColumnMatTxt}" /><t:template><Text text="{mat_sum_one>MatText}" wrapping="true" maxLines="1" class="matnrHighlightsmall" /></t:template></t:Column>
+                  <t:Column><Label text="{i18n>ColumnSales}" /><t:template><Text text="{ path: 'mat_sum_one>MatnrSum', formatter: '.formatter.formatNumberWithComma' }" /></t:template></t:Column>
+                  <t:Column><Label text="{i18n>ColumnWears}" /><t:template><Text text="{mat_sum_one>waers}" /></t:template></t:Column>
+                </t:columns>
+              </t:Table>
+            </VBox>
+          </f:content>
+        </f:Card>
+
+        <f:Card height="290px">
+          <f:header>
+            <card:Header title="{i18n>BpCardTitle}"
+                         subtitle="{i18n>BpCardSubTitle}"
+                         iconSrc="sap-icon://customer"
+                         class="highlightCardHeader" />
+          </f:header>
+          <f:content>
+            <VBox class="sapUiTinyMarginTop sapUiTinyMarginBottom sapUiMediumMarginBegin">
+              <HBox justifyContent="Start" class="sapUiNoContentPadding sapUiTinyMarginBottom">
+                <Link text="{i18n>LinkCustText}" press=".onBpPress" />
+              </HBox>
+              <t:Table rows="{bp_sum_one>/ZCA_CDS_V_004}" visibleRowCount="3" selectionMode="None" width="100%">
+                <t:columns>
+                  <t:Column><Label text="{i18n>ColumnCusCode}"  /><t:template><Text text="{bp_sum_one>CustCode}" class="matnrHighlight" /></t:template></t:Column>
+                  <t:Column><Label text="{i18n>ColumnCustName}" /><t:template><Text text="{bp_sum_one>name1}" class="matnrHighlightsmall"/></t:template></t:Column>
+                  <t:Column><Label text="{i18n>ColumnCusSales}" /><t:template><Text text="{ path: 'bp_sum_one>SalesSum', formatter: '.formatter.formatNumberWithComma' }" /></t:template></t:Column>
+                  <t:Column><Label text="{i18n>ColumnWears}" /><t:template><Text text="{bp_sum_one>waers}" /></t:template></t:Column>
+                </t:columns>
+              </t:Table>
+            </VBox>
+          </f:content>
+        </f:Card>
+      </VBox>
+
+    </HBox>
+  </Page>
+</mvc:View>

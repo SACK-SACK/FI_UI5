@@ -1,0 +1,34 @@
+/* title만 파란색, 굵게 */
+.highlightCardHeader .sapFCardHeaderText {
+  color: #0a6ed1 !important;
+  font-weight: bold;
+}
+.titlePanel {
+  color: #0a6ed1 !important;
+  font-weight: bold;
+}
+
+.largeKpiNumber .sapMObjectNumberText {
+  font-size: 1.1rem !important; /* 필요 시 2rem까지 조정 가능 */
+  font-weight: semibold;
+  color: darkred;
+}
+
+.largerKpiNumber {
+  font-size: 1.3rem !important; /* 필요 시 2rem까지 조정 가능 */
+  font-weight: bold;
+}
+
+.highlightRank {
+  font-weight: bold !important;
+  color: #ff0000; /* 예: 주황색 */
+}
+
+.matnrHighlight {
+  font-weight: bold !important;
+  color: rgb(13, 4, 89);
+}
+.matnrHighlightsmall{
+  font-weight: semibold;
+  color: rgb(24, 15, 149);
+}

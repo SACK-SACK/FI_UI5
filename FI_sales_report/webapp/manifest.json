@@ -1,0 +1,219 @@
+{
+  "_version": "1.60.0",
+  "sap.app": {
+    "id": "sync.ca.fi.salesreport",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:basic",
+      "version": "1.16.5",
+      "toolsId": "05f8625c-cabf-4916-b126-259cc5e782d8"
+    },
+    "dataSources": {
+      "ZCA_CDS_V_002_CDS_VAN": {
+        "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZCA_CDS_V_002_CDS_VAN',Version='0001')/$value/",
+        "type": "ODataAnnotation",
+        "settings": {
+          "localUri": "localService/mainService/ZCA_CDS_V_002_CDS_VAN.xml"
+        }
+      },
+      "mainService": {
+        "uri": "/sap/opu/odata/sap/ZCA_CDS_V_002_CDS/",
+        "type": "OData",
+        "settings": {
+          "annotations": [
+            "ZCA_CDS_V_002_CDS_VAN"
+          ],
+          "localUri": "localService/mainService/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "ZCA_CDS_V_001_CDS_VAN": {
+        "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZCA_CDS_V_001_CDS_VAN',Version='0001')/$value/",
+        "type": "ODataAnnotation",
+        "settings": {
+          "localUri": "localService/ZCA_CDS_V_001_CDS/ZCA_CDS_V_001_CDS_VAN.xml"
+        }
+      },
+      "ZCA_CDS_V_001_CDS": {
+        "uri": "/sap/opu/odata/sap/ZCA_CDS_V_001_CDS/",
+        "type": "OData",
+        "settings": {
+          "annotations": [
+            "ZCA_CDS_V_001_CDS_VAN"
+          ],
+          "localUri": "localService/ZCA_CDS_V_001_CDS/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "ZCA_CDS_V_003_CDS_VAN": {
+        "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZCA_CDS_V_003_CDS_VAN',Version='0001')/$value/",
+        "type": "ODataAnnotation",
+        "settings": {
+          "localUri": "localService/ZCA_CDS_V_003_CDS/ZCA_CDS_V_003_CDS_VAN.xml"
+        }
+      },
+      "ZCA_CDS_V_003_CDS": {
+        "uri": "/sap/opu/odata/sap/ZCA_CDS_V_003_CDS/",
+        "type": "OData",
+        "settings": {
+          "annotations": [
+            "ZCA_CDS_V_003_CDS_VAN"
+          ],
+          "localUri": "localService/ZCA_CDS_V_003_CDS/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "ZCA_CDS_V_004_CDS_VAN": {
+        "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZCA_CDS_V_004_CDS_VAN',Version='0001')/$value/",
+        "type": "ODataAnnotation",
+        "settings": {
+          "localUri": "localService/ZCA_CDS_V_004_CDS/ZCA_CDS_V_004_CDS_VAN.xml"
+        }
+      },
+      "ZCA_CDS_V_004_CDS": {
+        "uri": "/sap/opu/odata/sap/ZCA_CDS_V_004_CDS/",
+        "type": "OData",
+        "settings": {
+          "annotations": [
+            "ZCA_CDS_V_004_CDS_VAN"
+          ],
+          "localUri": "localService/ZCA_CDS_V_004_CDS/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.120.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "sync.ca.fi.salesreport.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {}
+      },
+      "bp_sum": {
+        "dataSource": "ZCA_CDS_V_001_CDS",
+        "preload": true,
+        "settings": {}
+      },
+      "mat_sum_one": {
+        "dataSource": "ZCA_CDS_V_003_CDS",
+        "preload": true,
+        "settings": {}
+      },
+      "bp_sum_one": {
+        "dataSource": "ZCA_CDS_V_004_CDS",
+        "preload": true,
+        "settings": {}
+      },
+      "ZCA_CDS_V_001_CDS": {
+        "dataSource": "ZCA_CDS_V_001_CDS",
+        "preload": true,
+        "settings": {}
+      },
+      "ZCA_CDS_V_003_CDS": {
+        "dataSource": "ZCA_CDS_V_003_CDS",
+        "preload": true,
+        "settings": {}
+      },
+      "ZCA_CDS_V_004_CDS": {
+        "dataSource": "ZCA_CDS_V_004_CDS",
+        "preload": true,
+        "settings": {}
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "controlAggregation": "pages",
+        "controlId": "app",
+        "transition": "slide",
+        "type": "View",
+        "viewType": "XML",
+        "path": "sync.ca.fi.salesreport.view",
+        "async": true,
+        "viewPath": "sync.ca.fi.salesreport.view"
+      },
+      "routes": [
+        {
+          "pattern": "",
+          "name": "Main",
+          "target": "Main"
+        },
+        {
+          "pattern": "mat-chart",
+          "name": "MatChart",
+          "target": "MatChart"
+        },
+        {
+          "pattern": "bp-chart",
+          "name": "BpChart",
+          "target": "BpChart"
+        }
+      ],
+      "targets": {
+        "Main": {
+          "viewName": "Main"
+        },
+        "MatChart": {
+          "viewName": "MatChart"
+        },
+        "BpChart": {
+          "viewName": "BpChart"
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "sync.ca.fi.salesreport.view.App",
+      "type": "XML",
+      "id": "App"
+    }
+  }
+}
