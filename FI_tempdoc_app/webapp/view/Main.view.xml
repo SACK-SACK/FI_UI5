@@ -1,0 +1,78 @@
+<mvc:View
+    controllerName="sync.ca.fi.documentapp.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
+    xmlns:smartList="sap.ui.comp.smartlist"
+    height="100%"
+    width="100%">
+
+    <!-- FlexibleColumnLayout Container -->
+    <f:FlexibleColumnLayout id="fcl">
+
+        <!-- Begin Column: SmartList : 왼쪽 컬럼 -->
+        <f:beginColumnPages>
+            <!--[FI] 임시전표 승인-->
+            <Page title="{i18n>title}">
+                <!-- IconTabBar : 필터 탭 : ALL / 상신건 / 승인건 / 반려건 : onFilterSelect 함수 호출-->
+                <IconTabBar 
+                    id="idIconTabBar"
+                    select=".onFilterSelect"
+                    class="sapUiResponsiveContentPadding">
+                    <items>
+                        <IconTabFilter icon="sap-icon://attachment-video" iconColor="Default" text="All" key="All" />
+                        <IconTabSeparator />
+                        <IconTabFilter icon="sap-icon://bbyd-active-sales" iconColor="Critical" text="상신건" key="S" />
+                        <IconTabFilter icon="sap-icon://accept" iconColor="Positive" text="승인건" key="A" />
+                        <IconTabFilter icon="sap-icon://decline" iconColor="Negative" text="반려건" key="R" />
+                    </items>
+                </IconTabBar>
+
+                <!-- SmartList : 임시 전표 목록을 자동으로 바인딩 -> ODATA EntitySet : ZCA_CDS_V_005-->
+                <smartList:SmartList
+                    id="DocumentSmartList"
+                    entitySet="ZCA_CDS_V_005"
+                    header="{i18n>titleList}"
+                    enableAutoBinding="true"
+                    showRowCount="true"
+                    noDataText="조회된 전표가 없습니다."
+                    selectFields="Belnr,Bltxt,Gjahr,Bukrs,Recipient,RecDate,AppStatus">
+                    <smartList:listItemTemplate>
+                        <CustomListItem type="Active" press=".onItemPress">
+                            <HBox justifyContent="SpaceBetween" alignItems="Start" class="sapUiSmallMargin">
+                                <VBox>
+                                    <ObjectIdentifier title="{i18n>columnBelnr}{Belnr}" text="{Bltxt}" />
+                                    <HBox wrap="Wrap">
+                                        <Text text="{i18n>columnGjahr}" class="textSubtleSmall sapUiTinyMarginEnd" />
+                                        <Text text="{Gjahr}" class="textSubtleSmall sapUiTinyMarginEnd" />
+                                        <Text text="{i18n>columnBukrs}" class="textSubtleSmall sapUiTinyMarginEnd" />
+                                        <Text text="{Bukrs}" class="textSubtleSmall sapUiTinyMarginEnd" />
+                                    </HBox>
+                                    <HBox wrap="Wrap">
+                                        <Text text="{i18n>columnRecipient}" class="textSubtleSmall sapUiTinyMarginEnd" />
+                                        <Text text="{Recipient}" class="textSubtleSmall sapUiTinyMarginEnd" />
+                                    </HBox>
+                                    <HBox wrap="Wrap">
+                                        <Text text="{i18n>columnRecDate}" class="textSubtleSmall sapUiTinyMarginEnd" />
+                                        <Text text="{path: 'RecDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy.MM.dd'}}" class="textSubtleSmall sapUiTinyMarginEnd" />
+                                    </HBox>
+                                </VBox>
+                                <ObjectStatus
+                                    icon="{path: 'AppStatus', formatter: '.formatter.formatStatusIcon'}"
+                                    state="{path: 'AppStatus', formatter: '.formatter.formatStatusState'}"
+                                    text="{path: 'AppStatus', formatter: '.formatter.formatStatusText'}"
+                                />
+                            </HBox>
+                        </CustomListItem>
+                    </smartList:listItemTemplate>
+                </smartList:SmartList>
+            </Page>
+        </f:beginColumnPages>
+
+        <!-- Mid Column: 중간 컬럼 -> 전표 하나 클릭했을 때 컬럼 표시됨-->
+        <f:midColumnPages>
+            <Page id="detailPage" title="상세 정보 View "/>
+        </f:midColumnPages>
+    </f:FlexibleColumnLayout>
+</mvc:View>

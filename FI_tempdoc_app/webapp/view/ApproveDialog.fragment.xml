@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Dialog
+        id="approveDialog"
+        title="결재 처리"
+        class="sapUiResponsivePadding--header sapUiResponsivePadding--content sapUiResponsivePadding--footer">
+
+        <VBox class="sapUiSmallMargin">
+            <Text text="결재자는 현재 로그인 사용자이며, 결재일자는 오늘 날짜로 자동 지정됩니다." class="textApprove"/>
+            <Text text=" "/>
+            
+            <Label text="현재 결재 상태" />
+            <ObjectStatus
+                icon="{path: 'AppStatus', formatter: '.formatter.formatStatusIcon'}"
+                state="{path: 'AppStatus', formatter: '.formatter.formatStatusState'}"
+                text="{path: 'AppStatus', formatter: '.formatter.formatStatusText'}"
+            />
+
+            <Text text=" "/>
+            
+            <Label text="결재" labelFor="approvalSwitch"></Label>
+            <HBox alignItems="Center" justifyContent="Start" class="statusToggleBox">
+                <Button
+                    id="approveBtn"
+                    text="승인"
+                    icon="sap-icon://accept"
+                    type="{= ${updateModel>/AppStatus} === 'A' ? 'Accept' : 'Default' }"
+                    press=".onSelectApprove"
+                />
+                <Button
+                    id="rejectBtn"
+                    text="반려"
+                    icon="sap-icon://decline"
+                    class="sapUiSmallMarginBegin"
+                    type="{= ${updateModel>/AppStatus} === 'R' ? 'Reject' : 'Default' }"
+                    press=".onSelectReject"
+                />
+            </HBox>
+            <Text text=" "/>
+            <Label text="결재 의견" labelFor="approvalComment"/>
+            <TextArea                                                                                                                                                                                                                                                                                   
+                id="approvalComment"
+                placeholder="결재 의견을 입력하세요"
+                rows="4"
+                width="100%"
+                growing="true"/>
+        </VBox>
+
+        <beginButton>
+            <Button
+                text="결재 처리"
+                type="Emphasized"
+                press="onConfirmApproval"/>
+        </beginButton>
+        <endButton>
+            <Button
+                text="취소"
+                press="onCancelApproval"/>
+        </endButton>
+
+    </Dialog>
+</core:FragmentDefinition>

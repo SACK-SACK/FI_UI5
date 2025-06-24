@@ -1,0 +1,159 @@
+<mvc:View
+    controllerName="sync.ca.fi.documentapp.controller.Detail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.f"
+    xmlns:m="sap.m"
+    xmlns:uxap="sap.uxap"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:t="sap.ui.table"
+    displayBlock="true">
+
+    <uxap:ObjectPageLayout 
+        id="detailPage"
+        showTitleInHeaderContent="true"
+        alwaysShowContentHeader="false"
+        preserveHeaderStateOnScroll="false"
+        headerContentPinnable="true"
+        isChildPage="true"
+        upperCaseAnchorBar="false">
+
+        <!-- ✅ 제목 헤더 영역 -->
+        <uxap:headerTitle>
+            <uxap:ObjectPageDynamicHeaderTitle>
+
+                <!-- 좌측 큰 제목 -->
+                <uxap:snappedHeading>
+                    <m:Title text="전표 상세" level="H1"/>
+                </uxap:snappedHeading>
+
+                <!-- 우측 버튼들 -->
+                <uxap:actions>
+                    <m:Button
+                        icon="sap-icon://nav-back"
+                        press=".onNavBack"
+                        tooltip="뒤로가기"/>
+                    <m:Button 
+                        icon="sap-icon://full-screen"
+                        press=".onFullScreen"
+                        tooltip="전체 화면"/>
+                    <m:ToggleButton
+                        text="결재"
+                        type="Emphasized"
+                        press="onUpdate"
+                        enabled="{= ${AppStatus} === 'S' }"/>
+                </uxap:actions>
+
+            </uxap:ObjectPageDynamicHeaderTitle>
+        </uxap:headerTitle>
+
+        <!-- ✅ 상단 아바타 및 주요 정보 -->
+        <uxap:headerContent>
+            <m:FlexBox
+                wrap="Wrap"
+                fitContainer="true"
+                alignContent="Stretch">
+                <m:Avatar 
+                    displaySize="L"
+                    displayShape="Circle"
+                    class="sapUiTinyMarginEnd"
+                    src="sap-icon://batch-payments"/>
+                <m:VBox 
+                    justifyContent="Center"
+                    class="sapUiSmallMarginEnd">
+                    <m:Label text="전표번호"/>
+                    <m:Title text="{Belnr}" />
+                </m:VBox>
+                <m:VBox 
+                    justifyContent="Center"
+                    class="sapUiSmallMarginEnd">
+                    <m:Label text="결재 상태"/>
+                    <m:ObjectStatus
+                        text="{path: 'AppStatus', formatter: '.formatter.formatStatusText'}"
+                        icon="{path: 'AppStatus', formatter: '.formatter.formatStatusIcon'}"
+                        state="{path: 'AppStatus', formatter: '.formatter.formatStatusState'}" />
+                </m:VBox>
+            </m:FlexBox>
+        </uxap:headerContent>
+<uxap:sections>
+    <!-- ✅ 전표 정보 섹션 -->
+    <uxap:ObjectPageSection title="전표 정보">
+        <uxap:subSections>
+            <uxap:ObjectPageSubSection>
+                <uxap:blocks>
+                    <form:SimpleForm
+                        layout="ResponsiveGridLayout"
+                        labelSpanL="4"
+                        labelSpanM="4"
+                        columnsL="2"
+                        columnsM="2">
+                        <form:content>
+                            <m:Label text="회계 연도"/>
+                            <m:Text text="{Gjahr}" />
+                            <m:Label text="회사 코드"/>
+                            <m:Text text="{Bukrs}" />
+                            <m:Label text="상신자"/>
+                            <m:Text text="{Recipient}" />
+                            <m:Label text="상신 날짜"/>
+                            <m:Text text="{path: 'RecDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy.MM.dd'}}" />
+                        </form:content>
+                    </form:SimpleForm>
+                </uxap:blocks>
+            </uxap:ObjectPageSubSection>
+        </uxap:subSections>
+    </uxap:ObjectPageSection>
+
+    <!-- ✅ 전표 상세 항목 섹션 (items="{i}") -->
+    <uxap:ObjectPageSection title="전표 상세 항목">
+        <uxap:subSections>
+            <uxap:ObjectPageSubSection>
+                <uxap:blocks>
+                        <m:Table
+                            id="itemTable"
+                            items="{path: 'toi', templateShareable: false}">
+                            <m:columns>
+                                <m:Column>
+                                    <m:Text text="계정코드" />
+                                </m:Column>
+                                <m:Column>
+                                    <m:Text text="계정명" />
+                                </m:Column>
+                                <m:Column>
+                                    <m:Text text="전기키" />
+                                </m:Column>
+                                <m:Column>
+                                    <m:Text text="차변" />
+                                </m:Column>
+                                <m:Column>
+                                    <m:Text text="대변" />
+                                </m:Column>
+                                <m:Column>
+                                    <m:Text text="통화" />
+                                </m:Column>
+                                <m:Column>
+                                    <m:Text text="BP코드" />
+                                </m:Column>
+                            </m:columns>
+                            <m:items>
+                                <m:ColumnListItem>
+                                    <m:cells>
+                                        <m:Text text="{saknr}" />
+                                        <m:Text text="{gltxt}" />
+                                        <m:Text text="{bschl}" />
+                                        <m:Text text="{ path: 'dmbtr', formatter: '.formatter.debitOnly', parts: [{path:'bschl'}, {path:'dmbtr'}]}"
+                                                class="debitAmount" />
+                                        <m:Text text="{ path: 'dmbtr', formatter: '.formatter.creditOnly', parts: [{path:'bschl'}, {path:'dmbtr'}]}"
+                                                 class="creditAmount" />
+                                        <m:Text text="{waers}" />
+                                        <m:Text text="{bpcode}" />
+                                    </m:cells>
+                                </m:ColumnListItem>
+                            </m:items>
+                        </m:Table>
+                </uxap:blocks>
+            </uxap:ObjectPageSubSection>
+        </uxap:subSections>
+    </uxap:ObjectPageSection>
+</uxap:sections>
+    </uxap:ObjectPageLayout>
+</mvc:View>
